@@ -19,17 +19,5 @@
         group: "{{ item.metadata.deployment_name }}"
       with_items: "{{result.ansible_facts.openstack_servers}}"
 
-    - debug:
-        msg: "{{ groups }}"
-        
-    - name: test apps
-      hosts: apps
-        - debug: "apps group done"
-
-    - name: test frontends
-      hosts: frontends
-        - debug: "frontends group done"
-
-    - name: test appdbs
-      hosts: appdbs
-        - debug: "appdbs group done"
+#    - debug:
+#        msg: "{{ groups }}"
