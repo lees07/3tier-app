@@ -30,6 +30,9 @@
 #    - {name: base-config, tags: base-config}
 #    - {name: geerlingguy.postgresql, tags: [dbs, postgres]}
 
+- debug:
+  msg: "{{ groups }}"
+
 - hosts: apps
   tasks:
     - command: echo "apps group done"
