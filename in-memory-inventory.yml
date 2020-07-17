@@ -34,5 +34,5 @@
 #        group: "{{ item.metadata.deployment_name }}"
 #      with_items: "{{result.openstack_servers}}"
 
-    - debug:
-        msg: "{{ groups }}"
+#    - debug:
+#        msg: "{{ groups }}"
