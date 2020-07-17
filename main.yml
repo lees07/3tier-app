@@ -1,38 +1,56 @@
 ---
-- name: Import In-memory inventory play
-  import_playbook: in-memory-inventory.yml
+#- name: Import In-memory inventory play
+#  import_playbook: in-memory-inventory.yml
 
-- hosts: all
-  name: Debug in memory inventory
+- name: In-Memory inventory playbook
+  hosts: workstation
+  tasks:
+    - name: Fetch Instance Info
+      os_server_facts:
+        cloud: openstack
+      register: result
+
+    - name: Add host
+      add_host:
+        name: "{{ item.public_v4 }}"
+        group: "{{ item.metadata.group }}"
+      with_items: "{{result.ansible_facts.openstack_servers}}"
+
+    - name: Add host
+      add_host:
+        name: "{{ item.public_v4 }}"
+        group: "{{ item.metadata.deployment_name }}"
+      with_items: "{{result.ansible_facts.openstack_servers}}"
+
+
+- name: Debug in memory inventory
+#  hosts: all
   tasks:
     - debug: var=groups
 
 # Setup front-end load balancer tier
-
-#- name: setup load-balancer tier
-#  hosts: frontends
-#  become: yes
-#  roles:
-#    - {name: base-config, tags: base-config}
-#    - {name: lb-tier, tags: [lbs, haproxy]}
+- name: setup load-balancer tier
+  hosts: frontends
+  become: yes
+  roles:
+    - {name: base-config, tags: base-config}
+    - {name: lb-tier, tags: [lbs, haproxy]}
 
 # Setup application servers tier
-
-#- name: setup app tier
-#  hosts: apps
-#  become: yes
-#  gather_facts: false
-#  roles:
-#    - {name: base-config, tags: base-config}
-#    - {name: app-tier, tags: [apps, tomcat]}
+- name: setup app tier
+  hosts: apps
+  become: yes
+  gather_facts: false
+  roles:
+    - {name: base-config, tags: base-config}
+    - {name: app-tier, tags: [apps, tomcat]}
 
 # Setup database tier
-
-#- name: setup database tier
-#  become: yes
-#  hosts: appdbs
-#  roles:
-#    - {name: base-config, tags: base-config}
-#    - {name: geerlingguy.postgresql, tags: [dbs, postgres]}
+- name: setup database tier
+  become: yes
+  hosts: appdbs
+  roles:
+    - {name: base-config, tags: base-config}
+    - {name: geerlingguy.postgresql, tags: [dbs, postgres]}
 
 ...
