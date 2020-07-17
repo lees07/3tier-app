@@ -1,4 +1,6 @@
 ---
+
+# work for ansible engine version less than 2.9
 - name: In-Memory inventory playbook
   hosts: workstation
   tasks:
@@ -19,20 +21,23 @@
         group: "{{ item.metadata.deployment_name }}"
       with_items: "{{result.ansible_facts.openstack_servers}}"
 
+# work for ansible engine version 2.9 or higher
 #    - name: Fetch Instance Info
 #      os_server_info:
 #        cloud: openstack
 #      register: result
+
 #    - name: Add host
 #      add_host:
 #        name: "{{ item.public_v4 }}"
 #        group: "{{ item.metadata.group }}"
 #      with_items: "{{result.openstack_servers}}"
+
 #    - name: Add host
 #      add_host:
 #        name: "{{ item.public_v4 }}"
 #        group: "{{ item.metadata.deployment_name }}"
 #      with_items: "{{result.openstack_servers}}"
 
-#    - debug:
-#        msg: "{{ groups }}"
+    - debug:
+        msg: "{{ groups }}"
