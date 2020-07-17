@@ -24,7 +24,7 @@
 
 
 - name: Debug in memory inventory
-#  hosts: all
+  hosts: all
   tasks:
     - debug: var=groups
 
