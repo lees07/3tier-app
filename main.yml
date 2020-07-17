@@ -2,6 +2,11 @@
 - name: Import In-memory inventory play
   import_playbook: in-memory-inventory.yml
 
+- hosts: all
+  name: Debug in memory inventory
+  tasks:
+    - debug: var=groups
+
 # Setup front-end load balancer tier
 
 #- name: setup load-balancer tier
@@ -30,19 +35,4 @@
 #    - {name: base-config, tags: base-config}
 #    - {name: geerlingguy.postgresql, tags: [dbs, postgres]}
 
-- hosts: all
-  tasks:
-    - debug: var=groups
-
-- hosts: apps
-  tasks:
-    - command: echo "apps group done"
-
-- hosts: frontendsa
-  tasks:
-    - command: echo "frontends group done"
-
-- hosts: appdbs
-  tasks:
-    - command: echo "appdbs group done"
 ...
