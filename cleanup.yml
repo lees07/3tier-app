@@ -1,6 +1,9 @@
 ---
 
+- name: Import In-memory inventory play
+  import_playbook: in-memory-inventory.yml
+
 - name: cleanup - delete the the tier app specfic additions
-  hosts: all
+  hosts: QA
   roles:
     - cleanup
