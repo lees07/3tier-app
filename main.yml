@@ -32,8 +32,7 @@
 
 - hosts: all
   tasks:
-    - debug:
-        msg: "{{ groups }}"
+    - debug: var=groups
 
 - hosts: apps
   tasks:
